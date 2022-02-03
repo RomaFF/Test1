@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react'
+
+import { CardList } from './components/CardList/CardList';
 
 function App() {
+  const [data, setData] = useState(0);
+
+  useEffect(() => {
+    fetch(`https://61fbc6493f1e34001792c5dd.mockapi.io/data/test`)
+        .then(res => res.json())
+        .then(json => {
+          console.log(json) 
+          setData(json)
+        })
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data ? <CardList data={data}/> : <div>Загрузка...</div>}
     </div>
   );
 }
