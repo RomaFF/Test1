@@ -1,23 +1,22 @@
-import './App.css';
 import {useState, useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
+import './App.css';
+import { fetchData } from './actions/actions'
 import { CardList } from './components/CardList/CardList';
 
-function App() {
-  const [data, setData] = useState(0);
+const App = () => {
+
+  const data = useSelector(state => state.defaultData.data);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(`https://61fbc6493f1e34001792c5dd.mockapi.io/data/test`)
-        .then(res => res.json())
-        .then(json => {
-          console.log(json) 
-          setData(json)
-        })
+    dispatch(fetchData())
   }, [])
 
   return (
     <div className="App">
-      {data ? <CardList data={data}/> : <div>Загрузка...</div>}
+      {data ? <CardList/> : <div>Загрузка...</div>}
     </div>
   );
 }
